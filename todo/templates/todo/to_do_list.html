@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <title>ToDo App</title>
+</head>
+<body class="bg-dark">
+
+
+<div class="container p-5">
+    <div class="row mx-auto col-md-5 mt-5 pt-5">
+        <div class="card bg-danger text-white" style="width: 100%;">
+            <div class="card-header">
+                <h3>To Do List</h3>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'insert' %}" method="post" name="list_add" onsubmit="return validateForm()">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Add Tasks" name="tasks">
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-white"><button class="btn btn-sm bg-white text-dark">
+                                <i class="fas fa-plus-circle fa-lg"></i>
+                            </button></span>
+                        </div>
+                    </div>
+                </form>
+                <ul class="list-group mt-3 text-dark">
+                    {% for i in tasks %}
+                    <li class="list-group-item">{{i.content}}
+                        <form action="{% url 'delete' i.id %}" method="post" class="float-right">
+                            {% csrf_token %}
+                            <button type="submit" class="btn bg-white">
+                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                            </button>
+                        </form>
+                    </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    function validateForm() {
+  var x = document.forms["list_add"]["tasks"].value;
+  if (x == "") {
+    alert("Please fill out some tasks");
+    return false;
+  }
+}
+</script>
+</body>
+</html>
